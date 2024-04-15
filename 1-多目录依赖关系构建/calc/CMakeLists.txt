@@ -5,3 +5,6 @@ add_executable(calc calc.c)
 
 # 这里添加编译要链接的库，自动会先编译add/dec的库
 target_link_libraries(calc add dec)
+
+# 也可以使用这种方法
+# add_dependencies(calc add dec)
