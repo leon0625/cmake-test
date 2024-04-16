@@ -12,4 +12,5 @@ add_custom_command(
   COMMAND mkdir -p ${CMAKE_INSTALL_PREFIX}/include
   COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/inc/add.h ${CMAKE_INSTALL_PREFIX}/include/
   COMMAND echo "======================="
+  COMMENT "install lib add header file..."     # 执行时会打印
 )
