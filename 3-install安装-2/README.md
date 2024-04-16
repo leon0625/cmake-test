@@ -30,5 +30,4 @@ add_custom_command(
 
 
 疑问： 
-为何用ninja构建器编译不过呢? cmake bug?  
-cmake版本3.22.1
+**为何两种方式ninja构建器都编译不过呢? **
