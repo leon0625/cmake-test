@@ -15,7 +15,7 @@ add_custom_command(TARGET <target>
                    [VERBATIM]
                    [COMMAND_EXPAND_LISTS])
 ```
-模式事件是POST_BUILD。
+默认事件是POST_BUILD。
 
 ```cmake
 add_custom_command(
@@ -30,4 +30,7 @@ add_custom_command(
 
 
 疑问： 
-**为何两种方式ninja构建器都编译不过呢? **
+**为何方法1和方法2两种方式ninja构建器都编译不过呢? **  
+因为方法1和方法2,calc和add的依赖只体现在链接处，所以ninja可以先编译calc的单个文件，最后链接前确保add编译成功就好了。
+所以出现编译失败问题。
+如果使用方法3,指定calc依赖add的头文件，就不会有问题了。
