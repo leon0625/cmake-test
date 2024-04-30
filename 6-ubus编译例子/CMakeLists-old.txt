@@ -9,8 +9,7 @@ add_custom_command(
     COMMAND tar -xf ${JSON_C_PKG}.tar.gz
 )
 
-add_custom_command(
-    OUTPUT install/include/json-c
+add_custom_target(build_jsonc
     DEPENDS json-c-${JSON_C_PKG}
     COMMAND cmake -S json-c-${JSON_C_PKG} -B jsonc-build
                     -DCMAKE_INSTALL_PREFIX=install
@@ -18,8 +17,6 @@ add_custom_command(
     COMMAND cmake --build jsonc-build
     COMMAND cmake --install jsonc-build
 )
-
-add_custom_target(build_jsonc DEPENDS install/include/json-c)
 ###################################################
 
 #################### libubox编译 ##############################
@@ -29,8 +26,8 @@ add_custom_command(
 )
 
 # 编译libubox，全部使用相对路径
-add_custom_command(
-    OUTPUT install/include/libubox
+add_custom_target(build_libubox
+    # 先配置环境变量，指定pkg-config的路径，不然找不到json-c
     COMMAND PKG_CONFIG_PATH=${CMAKE_BINARY_DIR}/install/lib/pkgconfig 
             cmake -S libubox -B build_libubox
                 -DBUILD_LUA=OFF
@@ -41,7 +38,6 @@ add_custom_command(
     COMMAND cmake --install build_libubox
     DEPENDS libubox  # 依赖下载的源代码
 )
-add_custom_target(build_libubox DEPENDS install/include/libubox)
 
 ######################  ubus 编译 ##################################
 add_custom_command(
@@ -52,8 +48,7 @@ add_custom_command(
 # 全部使用绝对路径
 # 编译ubus，不需要指定libubox的路径安装路径，cmake自动会到CMAKE_INSTALL_PREFIX位置里面找
 set(UBUS_BUILD_DIR ${CMAKE_BINARY_DIR}/build_ubus)
-add_custom_command(
-    OUTPUT install/include/libubus.h
+add_custom_target(build_ubus
     COMMAND cmake -S ${CMAKE_BINARY_DIR}/ubus -B ${UBUS_BUILD_DIR}
                 -DBUILD_LUA=OFF 
                 -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/install
@@ -63,7 +58,6 @@ add_custom_command(
     COMMAND cmake --install ${UBUS_BUILD_DIR}
     DEPENDS ${CMAKE_BINARY_DIR}/ubus
 )
-add_custom_target(build_ubus DEPENDS install/include/libubus.h)
 
 # 设置头文件和库文件的搜索路径
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/install/include)
