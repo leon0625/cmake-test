@@ -6,6 +6,6 @@
 * target_link_libraries  
 可执行文件链接的库，如果这个库是cmake的目标，cmake会自动添加依赖。先去编译库  
 * target_link_libraries  
-库里面使用这个，可以免去使用库的人设置头文件查找路径  
+库里面使用这个，设置属性为PUBLIC, 可以免去使用库的人设置头文件查找路径  
 * add_dependencies  
 手动指定依赖关系  
